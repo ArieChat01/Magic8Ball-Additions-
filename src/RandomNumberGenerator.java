@@ -7,6 +7,7 @@ public class RandomNumberGenerator {
         Scanner keyboard;
         int generatedNumber;
         boolean playGameAgain;
+        boolean error;
         String userQuestion;
         String userQuestionAnswer;
         String explanationGreeting;
@@ -22,6 +23,7 @@ public class RandomNumberGenerator {
         System.out.println(explanationGreeting);
 
         while (playGameAgain){
+            error = true;
             generatedNumber = (int) (Math.random() * 100);
 
             System.out.println(userQuestion);
@@ -53,17 +55,31 @@ public class RandomNumberGenerator {
             } else if (generatedNumber <= 100 && generatedNumber >= 91) {
                 System.out.println("Signs point to yes. Especially the signs that have \"yes\" written on them.");
             }
+
+
             System.out.println("\nDo you want another prediction?");
             System.out.println("(Answer \"yes\" or \"no\".)");
             userPlayAgain = keyboard.nextLine();
-            if (userPlayAgain.equals("yes")){
-                userQuestion = "Okay. Ask another \"yes\" or \"no\" question.";
+            while(error) {
+                if (!userPlayAgain.equals("yes") && !userPlayAgain.equals("no")) {
+                    System.out.println("Error! Error! You must enter \"yes\" or \"no\".\nTry Again!");
+                    System.out.println("\nDo you want another prediction?");
+                    System.out.println("(Answer \"yes\" or \"no\".)");
+                    playGameAgain = false;
+                    error = true;
+                    userPlayAgain = keyboard.nextLine();
+                }
+                else if (userPlayAgain.equals("yes")) {
+                    error = false;
+                    userQuestion = "Okay. Ask another \"yes\" or \"no\" question.";
+                    playGameAgain = true;
+                }
+                else if (userPlayAgain.equals("no")) {
+                    error = false;
+                    System.out.println("Good Bye!\nSHUTTING DOWN...");
+                    playGameAgain = false;
+                }
             }
-            else if (!userPlayAgain.equals("yes")){
-                System.out.println("Good Bye!\nSHUTTING DOWN...");
-                playGameAgain = false;
-            }
-
 
         }
     }
